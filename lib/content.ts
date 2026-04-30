@@ -437,6 +437,10 @@ export const FAQ_ITEMS: FAQItem[] = [
 export const SOCIAL_LINKS = {
   instagram: "https://instagram.com/neuton_almaty",
   tiktok: "https://www.tiktok.com/@neuton_almaty",
+  // TODO: заменить на реальный username при наличии Telegram
+  telegram: "https://t.me/neuton_almaty",
+  // TODO: вставить ссылку на ваш профиль 2GIS, когда появится
+  twoGis: "https://2gis.kz/almaty",
   offer:
     "https://docs.google.com/document/d/1KRgJ8qPk8AnhfAZjUTkRXYQCAtL5P8AtGS7uKqdrW1Y/edit",
 } as const;
@@ -446,4 +450,10 @@ export const COMPANY = {
   fullName: "Детский коррекционный центр «Ньютон»",
   city: "Алматы",
   tagline: "Раскрываем потенциал каждого ребёнка",
+  // TODO: заменить на реальные юр-данные перед публичным запуском
+  legalName: "ИП Ньютон",
+  bin: "XXXXXXXXXXXX",
+  // TODO: указать настоящий адрес — ключевой trust-сигнал, не оставлять пустым
+  address: "г. Алматы, ул. ___, дом ___",
+  addressShort: "Алматы",
 } as const;

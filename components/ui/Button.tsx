@@ -3,8 +3,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useRipple } from "@/components/effects/Ripple";
-import { fireConfetti } from "@/components/effects/Confetti";
-import { playSound, type SoundKind } from "@/lib/sound";
 
 type Variant = "primary" | "light" | "ghost";
 type Size = "md" | "lg" | "xl";
@@ -28,18 +26,9 @@ type CommonProps = {
   size?: Size;
   className?: string;
   children: React.ReactNode;
-  /** Skip ripple/sound/confetti — for static/decorative buttons */
+  /** Skip ripple — for static/decorative buttons */
   silent?: boolean;
-  sound?: SoundKind;
-  /** Suppress confetti even if primary */
-  noConfetti?: boolean;
 };
-
-function fireConfettiFromEvent(e: React.MouseEvent) {
-  const x = e.clientX || (e.currentTarget as HTMLElement).getBoundingClientRect().left + 20;
-  const y = e.clientY || (e.currentTarget as HTMLElement).getBoundingClientRect().top + 10;
-  fireConfetti({ x, y, count: 50 });
-}
 
 export type ButtonProps = CommonProps &
   Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> & {
@@ -52,8 +41,6 @@ export function Button({
   className,
   children,
   silent,
-  sound = "tap",
-  noConfetti,
   onClick,
   ...rest
 }: ButtonProps) {
@@ -62,11 +49,7 @@ export function Button({
     <button
       className={cn(BASE, VARIANT[variant], SIZE[size], className)}
       onClick={(e) => {
-        if (!silent) {
-          ripple.trigger(e);
-          playSound(variant === "primary" ? "success" : sound);
-          if (variant === "primary" && !noConfetti) fireConfettiFromEvent(e);
-        }
+        if (!silent) ripple.trigger(e);
         onClick?.(e);
       }}
       {...rest}
@@ -88,8 +71,6 @@ export function LinkButton({
   className,
   children,
   silent,
-  sound = "tap",
-  noConfetti,
   onClick,
   ...rest
 }: LinkButtonProps) {
@@ -98,11 +79,7 @@ export function LinkButton({
     <a
       className={cn(BASE, VARIANT[variant], SIZE[size], className)}
       onClick={(e) => {
-        if (!silent) {
-          ripple.trigger(e);
-          playSound(variant === "primary" ? "success" : sound);
-          if (variant === "primary" && !noConfetti) fireConfettiFromEvent(e);
-        }
+        if (!silent) ripple.trigger(e);
         onClick?.(e);
       }}
       {...rest}

@@ -1,10 +1,10 @@
 "use client";
 
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, ExternalLink } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Tilt3D } from "@/components/effects/Tilt3D";
-import { TESTIMONIALS } from "@/lib/content";
+import { TESTIMONIALS, SOCIAL_LINKS } from "@/lib/content";
 
 export function Testimonials() {
   return (
@@ -18,16 +18,26 @@ export function Testimonials() {
               кто уже у нас
             </h2>
           </div>
-          <div className="flex items-center gap-2 text-[14px] text-ink-soft">
+          <a
+            href={SOCIAL_LINKS.twoGis}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center gap-2 text-[14px] text-ink-soft hover:text-ink transition-colors"
+          >
             <div className="flex gap-0.5">
               {[0, 1, 2, 3, 4].map((i) => (
                 <Star key={i} className="size-4 fill-gold text-gold" />
               ))}
             </div>
             <span className="font-semibold">4.9 / 5</span>
-            <span className="text-muted-2">· 200+ отзывов</span>
-          </div>
+            <span className="text-muted-2">· отзывы на 2GIS</span>
+            <ExternalLink className="size-3.5 text-muted-2" />
+          </a>
         </div>
+        <p className="mt-4 text-[12px] text-muted-2">
+          {/* TODO: ссылку на 2GIS заменить на реальный профиль центра, когда появится */}
+          Все отзывы можно проверить на 2GIS — мы не модерируем там тексты.
+        </p>
 
         <div className="mt-12 md:mt-16 grid md:grid-cols-2 gap-3">
           {TESTIMONIALS.map((t) => (

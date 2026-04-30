@@ -11,6 +11,7 @@ type Props = {
 /**
  * Floating dust particles drifting upward — adds depth without distraction.
  * Canvas-based; respects prefers-reduced-motion.
+ * Auto-pauses when canvas leaves viewport (saves CPU on long pages).
  */
 export function ParticleField({ className, count = 18 }: Props) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -31,6 +32,7 @@ export function ParticleField({ className, count = 18 }: Props) {
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let raf = 0;
+    let visible = true;
     let particles: Array<{
       x: number;
       y: number;
@@ -59,7 +61,6 @@ export function ParticleField({ className, count = 18 }: Props) {
       r: 0.8 + Math.random() * 1.6,
       vy: -(0.12 + Math.random() * 0.28),
       vx: -0.12 + Math.random() * 0.24,
-      // 32 = warm gold, 150 = mint
       hue: Math.random() < 0.6 ? 32 : 150,
       a: 0.18 + Math.random() * 0.28,
     });
@@ -79,7 +80,7 @@ export function ParticleField({ className, count = 18 }: Props) {
         ctx.fillStyle = `hsla(${p.hue}, 60%, 75%, ${p.a})`;
         ctx.fill();
       }
-      raf = requestAnimationFrame(tick);
+      if (visible) raf = requestAnimationFrame(tick);
     };
 
     resize();
@@ -87,8 +88,22 @@ export function ParticleField({ className, count = 18 }: Props) {
     const ro = new ResizeObserver(resize);
     ro.observe(parent);
 
+    // Pause animation when canvas is fully out of viewport
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const wasVisible = visible;
+          visible = entry.isIntersecting;
+          if (!wasVisible && visible) raf = requestAnimationFrame(tick);
+        }
+      },
+      { rootMargin: "100px" },
+    );
+    io.observe(canvas);
+
     return () => {
       ro.disconnect();
+      io.disconnect();
       cancelAnimationFrame(raf);
     };
   }, [count]);

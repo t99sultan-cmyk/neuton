@@ -3,6 +3,7 @@
 import { Video, Wifi, Eye, ShieldCheck, Sofa, Coffee } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { LiteYouTube } from "@/components/effects/LiteYouTube";
 
 const FEATURES = [
   { icon: Video, title: "Камеры в каждом зале", text: "АВА, логопед, сенсорная — всё под наблюдением." },
@@ -68,14 +69,7 @@ export function LiveStream() {
                 <div className="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-7 rounded-[20px] bg-black z-20" />
 
                 <div className="absolute inset-0">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1&mute=1&loop=1&playlist=${YOUTUBE_ID}&controls=0&playsinline=1&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0`}
-                    title="Видео центра Ньютон"
-                    allow="autoplay; encrypted-media; picture-in-picture"
-                    allowFullScreen
-                    className="absolute inset-0 w-full h-full"
-                    loading="lazy"
-                  />
+                  <LiteYouTube videoId={YOUTUBE_ID} title="Видео центра Ньютон" />
                 </div>
 
                 <div className="pointer-events-none absolute top-12 left-3 right-3 flex items-center justify-between z-10">

@@ -1,16 +1,15 @@
 import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { TrustBar } from "@/components/sections/TrustBar";
-import { TagMarquee } from "@/components/sections/TagMarquee";
 import { Services } from "@/components/sections/Services";
 import { LiveStream } from "@/components/sections/LiveStream";
-import { About } from "@/components/sections/About";
 import { Process } from "@/components/sections/Process";
-import { WhyUs } from "@/components/sections/WhyUs";
 import { Specialists } from "@/components/sections/Specialists";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { Comparison } from "@/components/sections/Comparison";
 import { Pricing } from "@/components/sections/Pricing";
-import { PromoBanner } from "@/components/sections/PromoBanner";
+import { SelfTest } from "@/components/sections/SelfTest";
+import { Booking } from "@/components/sections/Booking";
 import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/sections/Footer";
@@ -21,16 +20,15 @@ import { RevealOnScroll } from "@/components/effects/RevealOnScroll";
 export default function Home() {
   const reveals = [
     <TrustBar key="trustbar" />,
-    <TagMarquee key="tagmarquee" />,
     <Services key="services" />,
     <LiveStream key="livestream" />,
-    <About key="about" />,
     <Process key="process" />,
-    <WhyUs key="whyus" />,
     <Specialists key="specialists" />,
     <Testimonials key="testimonials" />,
+    <Comparison key="comparison" />,
     <Pricing key="pricing" />,
-    <PromoBanner key="promo" />,
+    <SelfTest key="selftest" />,
+    <Booking key="booking" />,
     <FAQ key="faq" />,
     <Contact key="contact" />,
   ];

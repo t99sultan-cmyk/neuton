@@ -1,5 +1,8 @@
 export const PHONE_NUMBER = "77071989703";
 export const PHONE_DISPLAY = "+7 (707) 198-97-03";
+// TODO: заменить на реальный username Telegram
+export const TELEGRAM_USERNAME = "neuton_almaty";
+export const TELEGRAM_LINK = `https://t.me/${TELEGRAM_USERNAME}`;
 
 export function buildWhatsAppLink(message: string): string {
   return `https://api.whatsapp.com/send?phone=${PHONE_NUMBER}&text=${encodeURIComponent(message)}`;

@@ -51,6 +51,10 @@ export function CountdownTimer({
       <div className="flex items-stretch gap-2 sm:gap-2.5">
         {values.map((v, i) => {
           const display = v === null ? "··" : String(v).padStart(2, "0");
+          // Performance: only flip days/hours/minutes (i < 3); seconds change
+          // every tick — reflowing them via React remount thrashes CPU.
+          // Seconds use a simple opacity transition instead.
+          const isSeconds = i === 3;
           return (
             <div
               key={LABELS[i]}
@@ -63,7 +67,7 @@ export function CountdownTimer({
               )}
             >
               <span className={cn("font-bold leading-none tracking-tight", s.num)}>
-                <FlipDigit value={display} />
+                {isSeconds ? display : <FlipDigit value={display} />}
               </span>
               <span
                 className={cn(

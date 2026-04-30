@@ -5,8 +5,8 @@ import Image from "next/image";
 import { Phone, Menu, X, Wifi, BatteryFull, Signal } from "lucide-react";
 import { LinkButton } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { SoundToggle } from "@/components/SoundToggle";
 import { buildWhatsAppLink, PHONE_DISPLAY, WA_MESSAGES } from "@/lib/whatsapp";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 const LOGO_URL = "https://taplink.st/a/b/5/0/e/cc76ee.jpg";
@@ -91,7 +91,6 @@ export function Header() {
           </a>
 
           <div className="flex items-center gap-2">
-            <SoundToggle className="hidden xs:grid sm:grid" />
             <LinkButton
               variant="primary"
               size="md"
@@ -99,6 +98,7 @@ export function Header() {
               target="_blank"
               rel="noopener"
               className="!h-10 !px-4 !text-[12.5px]"
+              onClick={() => track.ctaWhatsApp("header", "promo")}
             >
               Записаться
             </LinkButton>

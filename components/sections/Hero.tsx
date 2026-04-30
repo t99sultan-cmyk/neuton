@@ -9,9 +9,12 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { CountdownTimer } from "@/components/CountdownTimer";
 import { Magnetic } from "@/components/effects/Magnetic";
 import { CountUp } from "@/components/effects/CountUp";
-import { MouseParallaxBlobs } from "@/components/effects/MouseParallaxBlobs";
 import { ParticleField } from "@/components/effects/ParticleField";
 import { Tilt3D } from "@/components/effects/Tilt3D";
+import { LiteYouTube } from "@/components/effects/LiteYouTube";
+import { fireConfetti } from "@/components/effects/Confetti";
+import { playSound } from "@/lib/sound";
+import { track } from "@/lib/analytics";
 import { buildWhatsAppLink, WA_MESSAGES } from "@/lib/whatsapp";
 import { formatPrice, cn } from "@/lib/utils";
 
@@ -25,7 +28,17 @@ export function Hero() {
       id="top"
       className="relative pt-6 pb-12 md:pt-10 md:pb-16 overflow-hidden"
     >
-      <MouseParallaxBlobs />
+      {/* Static ambient blobs (replaces JS-based mouse parallax — saves rAF cycle) */}
+      <div
+        className="absolute -top-32 -right-32 size-[640px] rounded-full opacity-30 blur-[120px] pointer-events-none"
+        style={{ background: "radial-gradient(closest-side, #E8B589, transparent)" }}
+        aria-hidden
+      />
+      <div
+        className="absolute top-40 -left-32 size-[520px] rounded-full opacity-20 blur-[110px] pointer-events-none"
+        style={{ background: "radial-gradient(closest-side, #A8D9BC, transparent)" }}
+        aria-hidden
+      />
 
       <Container className="relative">
         <Eyebrow>Алматы · Открыто сегодня · 09:00 — 19:00</Eyebrow>
@@ -44,12 +57,15 @@ export function Hero() {
             <div className="relative flex items-center gap-3 flex-wrap">
               <button
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
                   if (logoFlipping) return;
                   setLogoFlipping(true);
+                  const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                  fireConfetti({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2, count: 30 });
+                  playSound("success");
                   window.setTimeout(() => setLogoFlipping(false), 750);
                 }}
-                aria-label="Логотип"
+                aria-label="Логотип Ньютон"
                 className={cn(
                   "relative shrink-0 size-11 rounded-2xl overflow-hidden ring-1 ring-border-strong shadow-app animate-float",
                   logoFlipping && "coin-flip",
@@ -76,18 +92,15 @@ export function Hero() {
               </span>
             </div>
 
-            <h1 className="relative mt-7 font-bold tracking-tight text-balance text-[34px] sm:text-[44px] leading-[1.02]">
-              Помогаем детям{" "}
-              <span className="shimmer-text">расти спокойно</span>
-              <br className="hidden sm:block" />
-              а родителям —{" "}
-              <span className="text-accent">быть рядом</span>
+            <h1 className="relative mt-7 font-semibold sm:font-bold tracking-tight text-balance text-[32px] sm:text-[44px] leading-[1.05]">
+              Поставим речь, скорректируем поведение,{" "}
+              <span className="shimmer-text">подготовим к школе</span>
             </h1>
 
-            <p className="relative mt-6 max-w-[560px] text-[15.5px] sm:text-[17.5px] leading-[1.55] text-ink-soft text-pretty">
-              Профессиональная коррекция речи, поведения и развития под наблюдением
-              сертифицированных специалистов. В каждом зале — камеры прямой
-              трансляции: вы видите занятие в реальном времени с любого устройства.
+            <p className="relative mt-5 max-w-[560px] text-[15px] sm:text-[17px] leading-[1.55] text-ink-soft text-pretty">
+              Детский коррекционный центр в Алматы. <span className="text-ink">АВА, логопед, сенсорная интеграция, АФК.</span>{" "}
+              Камеры онлайн в каждом зале — вы видите занятие из дома или из нашей
+              зоны ожидания. Без давления, с прозрачным маршрутом коррекции.
             </p>
 
             <div className="relative mt-7 flex flex-col sm:flex-row gap-3">
@@ -130,26 +143,14 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Video reel */}
+          {/* Video reel — lazy loaded, click to play */}
           <div className="relative overflow-hidden rounded-[28px] card-elevated shadow-app-lg">
               <div className="relative aspect-[16/10]">
-                <iframe
-                  src={`https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1&mute=1&loop=1&playlist=${YOUTUBE_ID}&controls=0&playsinline=1&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0`}
-                  title="Видео центра Ньютон"
-                  allow="autoplay; encrypted-media; picture-in-picture"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full"
-                  loading="lazy"
-                />
-                {/* Top overlay */}
+                <LiteYouTube videoId={YOUTUBE_ID} title="Видео центра Ньютон" />
                 <div className="pointer-events-none absolute top-3 left-3 right-3 flex items-center justify-between">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-bg/70 backdrop-blur px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-wider text-ink border border-border-2">
                     <Video className="size-3" />
                     Внутри центра
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-danger/95 px-2.5 py-1 text-[10.5px] font-bold uppercase tracking-wider text-white">
-                    <span className="size-1.5 rounded-full bg-white animate-pulse-soft" />
-                    LIVE
                   </span>
                 </div>
               </div>

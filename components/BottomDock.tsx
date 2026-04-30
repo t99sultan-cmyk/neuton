@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Home, Sparkles, ListOrdered, MessageCircle, Tag } from "lucide-react";
 import { buildWhatsAppLink, WA_MESSAGES } from "@/lib/whatsapp";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 type DockItem = {
@@ -101,6 +102,7 @@ export function BottomDock() {
           href={buildWhatsAppLink(WA_MESSAGES.promoDiagnostic)}
           target="_blank"
           rel="noopener"
+          onClick={() => track.ctaWhatsApp("dock", "promo")}
           className={cn(
             "btn-base btn-primary",
             "h-11 px-3 sm:px-5",

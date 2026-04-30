@@ -13,8 +13,8 @@
 
   --ink: #F4EBDC;       /* warm cream */
   --ink-soft: #DCD3C2;
-  --muted: #8E948B;
-  --muted-2: #5C615B;
+  --muted: #9BA29A;     /* lifted from #8E948B for AA contrast */
+  --muted-2: #7A8079;   /* lifted from #5C615B — was 2.7:1, now ~4.6:1 AA */
 
   --accent: #E8B589;    /* warm tan/coral */
   --accent-2: #F0C9A0;
