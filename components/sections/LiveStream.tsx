@@ -1,6 +1,6 @@
 "use client";
 
-import { Video, Wifi, Eye, ShieldCheck } from "lucide-react";
+import { Video, Wifi, Eye, ShieldCheck, Sofa, Coffee } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
@@ -17,7 +17,7 @@ export function LiveStream() {
   return (
     <section className="py-12 md:py-16">
       <Container>
-        <div className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] card-elevated shadow-app-lg p-6 sm:p-10 md:p-12 lg:p-14">
+        <div className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] card-elevated shadow-app-lg p-6 sm:p-10 md:p-12">
           <div
             className="absolute -top-40 -right-40 size-[520px] rounded-full opacity-30 blur-[110px]"
             style={{ background: "radial-gradient(closest-side, #E8B589, transparent)" }}
@@ -34,17 +34,20 @@ export function LiveStream() {
               <Eyebrow>Главное отличие</Eyebrow>
               <h2 className="mt-5 font-bold tracking-tight text-balance text-[30px] sm:text-[36px] leading-[1.02]">
                 Вы видите, как идёт занятие.{" "}
-                <span className="shimmer-text">Из дома, с работы, из машины.</span>
+                <span className="shimmer-text">Онлайн или из зоны ожидания.</span>
               </h2>
-              <p className="mt-6 text-[16.5px] leading-[1.55] text-ink-soft text-pretty max-w-lg">
-                В каждом зале установлены камеры. После записи мы выдаём вам персональную
-                ссылку — заходите со смартфона и наблюдаете за занятием в реальном времени.
-                Без догадок «как там мой ребёнок».
+              <p className="mt-6 text-[16.5px] leading-[1.55] text-ink-soft text-pretty">
+                В каждом зале установлены камеры. Заходите со смартфона по персональной
+                ссылке — или приходите в наш центр и наблюдайте за занятием прямо из
+                комфортной зоны ожидания. Без догадок «как там мой ребёнок».
               </p>
 
-              <div className="mt-10 grid sm:grid-cols-2 gap-4">
+              <div className="mt-8 grid sm:grid-cols-2 gap-3">
                 {FEATURES.map((f) => (
-                  <div key={f.title} className="flex gap-3">
+                  <div
+                    key={f.title}
+                    className="flex gap-3 p-3 rounded-2xl bg-bg/40 border border-border card-hover-lift"
+                  >
                     <span className="shrink-0 grid place-items-center size-9 rounded-xl bg-accent/15 border border-accent/30">
                       <f.icon className="size-4 text-accent" />
                     </span>
@@ -60,8 +63,8 @@ export function LiveStream() {
             </div>
 
             {/* Phone mockup with vertical video */}
-            <div className="relative flex justify-center pt-4 lg:pt-0">
-              <div className="relative w-[230px] sm:w-[280px] lg:w-[300px] aspect-[9/19] rounded-[40px] sm:rounded-[44px] bg-black border-[8px] sm:border-[10px] border-[#0A0F0E] shadow-app-lg overflow-hidden">
+            <div className="relative flex justify-center pt-2">
+              <div className="relative w-[230px] sm:w-[280px] aspect-[9/19] rounded-[40px] sm:rounded-[44px] bg-black border-[8px] sm:border-[10px] border-[#0A0F0E] shadow-app-lg overflow-hidden">
                 <div className="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-7 rounded-[20px] bg-black z-20" />
 
                 <div className="absolute inset-0">
@@ -94,14 +97,29 @@ export function LiveStream() {
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div className="absolute -bottom-2 sm:bottom-6 -right-3 sm:-right-6 rounded-2xl glass px-4 py-3 shadow-app">
-                <div className="text-[10px] uppercase tracking-[0.18em] font-semibold text-muted">
-                  Сейчас смотрят
+            {/* Зона ожидания — новая премиум-карточка */}
+            <div className="relative grid sm:grid-cols-[auto_1fr] gap-4 p-5 sm:p-6 rounded-[24px] bg-gradient-to-br from-mint/15 via-surface-2 to-surface border border-mint/25 card-hover-lift">
+              <div className="flex sm:flex-col gap-3">
+                <span className="grid place-items-center size-12 rounded-2xl bg-mint/20 border border-mint/40">
+                  <Sofa className="size-5 text-mint" />
+                </span>
+                <span className="grid place-items-center size-12 rounded-2xl bg-mint/15 border border-mint/30">
+                  <Coffee className="size-5 text-mint" />
+                </span>
+              </div>
+              <div>
+                <div className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-mint">
+                  Зона ожидания · Офлайн
                 </div>
-                <div className="mt-0.5 font-bold text-[20px] tracking-tight tabular text-ink">
-                  234 родителя
-                </div>
+                <h3 className="mt-1.5 font-bold text-[20px] tracking-tight leading-tight">
+                  Можно наблюдать за занятием прямо в центре
+                </h3>
+                <p className="mt-2 text-[13.5px] leading-[1.55] text-ink-soft">
+                  Уютная зона с экранами, мягкой мебелью, Wi-Fi и кофе. Дождитесь ребёнка
+                  с комфортом — и видите, как идёт занятие, в реальном времени.
+                </p>
               </div>
             </div>
           </div>

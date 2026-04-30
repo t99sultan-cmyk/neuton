@@ -51,7 +51,7 @@ export function Services() {
                 target="_blank"
                 rel="noopener"
                 className={cn(
-                  "group relative flex flex-col p-5 sm:p-6 rounded-3xl overflow-hidden transition-all",
+                  "group relative flex flex-col p-5 sm:p-6 rounded-3xl overflow-hidden card-hover-lift",
                   isHero
                     ? "bg-gradient-to-br from-accent/25 via-surface-2 to-surface border border-accent/30 hover:border-accent/55"
                     : "card-elevated hover:border-border-strong",

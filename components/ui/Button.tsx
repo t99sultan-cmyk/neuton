@@ -1,5 +1,9 @@
+"use client";
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { useRipple } from "@/components/effects/Ripple";
+import { playSound, type SoundKind } from "@/lib/sound";
 
 type Variant = "primary" | "light" | "ghost";
 type Size = "md" | "lg" | "xl";
@@ -23,41 +27,75 @@ type CommonProps = {
   size?: Size;
   className?: string;
   children: React.ReactNode;
+  /** Skip ripple/sound — use for static/decorative buttons */
+  silent?: boolean;
+  sound?: SoundKind;
 };
 
 export type ButtonProps = CommonProps &
-  React.ButtonHTMLAttributes<HTMLButtonElement>;
+  Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> & {
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  };
 
 export function Button({
   variant = "primary",
   size = "md",
   className,
   children,
+  silent,
+  sound = "tap",
+  onClick,
   ...rest
 }: ButtonProps) {
+  const ripple = useRipple();
   return (
     <button
       className={cn(BASE, VARIANT[variant], SIZE[size], className)}
+      onClick={(e) => {
+        if (!silent) {
+          ripple.trigger(e);
+          playSound(sound);
+        }
+        onClick?.(e);
+      }}
       {...rest}
     >
-      {children}
+      <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
+      {!silent && ripple.node}
     </button>
   );
 }
 
 export type LinkButtonProps = CommonProps &
-  React.AnchorHTMLAttributes<HTMLAnchorElement>;
+  Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "onClick"> & {
+    onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+  };
 
 export function LinkButton({
   variant = "primary",
   size = "md",
   className,
   children,
+  silent,
+  sound = "tap",
+  onClick,
   ...rest
 }: LinkButtonProps) {
+  const ripple = useRipple();
   return (
-    <a className={cn(BASE, VARIANT[variant], SIZE[size], className)} {...rest}>
-      {children}
+    <a
+      className={cn(BASE, VARIANT[variant], SIZE[size], className)}
+      onClick={(e) => {
+        if (!silent) {
+          ripple.trigger(e);
+          playSound(variant === "primary" ? "success" : sound);
+        }
+        onClick?.(e);
+      }}
+      {...rest}
+    >
+      <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
+      {!silent && ripple.node}
     </a>
   );
 }

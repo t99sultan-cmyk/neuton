@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Phone, Menu, X, Wifi, BatteryFull, Signal } from "lucide-react";
 import { LinkButton } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { SoundToggle } from "@/components/SoundToggle";
 import { buildWhatsAppLink, PHONE_DISPLAY, WA_MESSAGES } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -90,6 +91,7 @@ export function Header() {
           </a>
 
           <div className="flex items-center gap-2">
+            <SoundToggle className="hidden xs:grid sm:grid" />
             <LinkButton
               variant="primary"
               size="md"

@@ -4,6 +4,9 @@ import { LinkButton } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { Magnetic } from "@/components/effects/Magnetic";
+import { CountUp } from "@/components/effects/CountUp";
+import { MouseParallaxBlobs } from "@/components/effects/MouseParallaxBlobs";
 import { buildWhatsAppLink, WA_MESSAGES } from "@/lib/whatsapp";
 import { formatPrice } from "@/lib/utils";
 
@@ -14,19 +17,9 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative pt-6 pb-16 md:pt-10 md:pb-24 overflow-hidden"
+      className="relative pt-6 pb-12 md:pt-10 md:pb-16 overflow-hidden"
     >
-      {/* Атмосферные blobs */}
-      <div
-        className="absolute -top-32 -right-32 size-[640px] rounded-full opacity-40 blur-[120px]"
-        style={{ background: "radial-gradient(closest-side, #E8B589, transparent)" }}
-        aria-hidden
-      />
-      <div
-        className="absolute top-40 -left-32 size-[520px] rounded-full opacity-25 blur-[110px]"
-        style={{ background: "radial-gradient(closest-side, #A8D9BC, transparent)" }}
-        aria-hidden
-      />
+      <MouseParallaxBlobs />
 
       <Container className="relative">
         <Eyebrow>Алматы · Открыто сегодня · 09:00 — 19:00</Eyebrow>
@@ -42,7 +35,7 @@ export function Hero() {
 
             {/* Лого + название */}
             <div className="relative flex items-center gap-3 flex-wrap">
-              <span className="relative shrink-0 size-11 rounded-2xl overflow-hidden ring-1 ring-border-strong shadow-app">
+              <span className="relative shrink-0 size-11 rounded-2xl overflow-hidden ring-1 ring-border-strong shadow-app animate-float">
                 <Image
                   src={LOGO_URL}
                   alt="Логотип Ньютон"
@@ -79,16 +72,18 @@ export function Hero() {
             </p>
 
             <div className="relative mt-7 flex flex-col sm:flex-row gap-3">
-              <LinkButton
-                variant="primary"
-                size="lg"
-                href={buildWhatsAppLink(WA_MESSAGES.promoDiagnostic)}
-                target="_blank"
-                rel="noopener"
-              >
-                Записаться за {formatPrice(5000)} ₸
-                <ArrowRight className="size-4" />
-              </LinkButton>
+              <Magnetic>
+                <LinkButton
+                  variant="primary"
+                  size="lg"
+                  href={buildWhatsAppLink(WA_MESSAGES.promoDiagnostic)}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Записаться за {formatPrice(5000)} ₸
+                  <ArrowRight className="size-4" />
+                </LinkButton>
+              </Magnetic>
               <LinkButton variant="ghost" size="lg" href="#services">
                 Посмотреть услуги
               </LinkButton>
@@ -103,10 +98,10 @@ export function Hero() {
               ].map((s) => (
                 <div
                   key={s.l}
-                  className="rounded-2xl bg-surface-2/60 border border-border px-3 py-2.5 sm:px-4 sm:py-3"
+                  className="rounded-2xl bg-surface-2/60 border border-border px-3 py-2.5 sm:px-4 sm:py-3 card-hover-lift"
                 >
-                  <div className="font-bold text-[18px] sm:text-[22px] leading-none tracking-tight">
-                    {s.v}
+                  <div className="font-bold text-[18px] sm:text-[22px] leading-none tracking-tight tabular">
+                    <CountUp value={s.v} />
                   </div>
                   <div className="mt-1.5 text-[10.5px] sm:text-[11.5px] text-muted leading-tight">
                     {s.l}

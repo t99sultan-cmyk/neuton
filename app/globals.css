@@ -224,6 +224,81 @@ body::before {
 }
 .animate-float { animation: float-y 4s ease-in-out infinite; }
 
+/* Slow ambient drift for hero blobs (mobile/no-mouse fallback) */
+@keyframes float-slow {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 24px -18px; }
+}
+@keyframes float-slow-rev {
+  0%, 100% { translate: 0 0; }
+  50% { translate: -22px 16px; }
+}
+@media (hover: none) {
+  .animate-float-slow { animation: float-slow 14s ease-in-out infinite; }
+  .animate-float-slow-rev { animation: float-slow-rev 16s ease-in-out infinite; }
+}
+
+/* Ripple on tap (Material-style) */
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 0.55; }
+  100% { transform: scale(1); opacity: 0; }
+}
+.animate-ripple { animation: ripple 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+
+/* Press feedback for buttons */
+.btn-base {
+  position: relative;
+  overflow: hidden;
+}
+.btn-base:active { transform: translateY(0) scale(0.97); }
+
+/* Marquee */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - 6px)); }
+}
+@keyframes marquee-right {
+  from { transform: translateX(calc(-50% - 6px)); }
+  to { transform: translateX(0); }
+}
+.animate-marquee-left { animation: marquee-left linear infinite; }
+.animate-marquee-right { animation: marquee-right linear infinite; }
+.marquee-hover-pause:hover [class*="animate-marquee"] { animation-play-state: paused; }
+
+/* Card lift on hover (premium touch) */
+.card-hover-lift {
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.18s ease,
+    box-shadow 0.28s ease;
+}
+.card-hover-lift:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 32px 64px -28px rgba(232, 181, 137, 0.30),
+    0 16px 32px -12px rgba(0, 0, 0, 0.55);
+}
+
+/* Breathing glow for primary CTAs (subtle) */
+@keyframes breathe-glow {
+  0%, 100% { box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.35) inset,
+      0 12px 32px -10px rgba(232, 181, 137, 0.55); }
+  50% { box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.42) inset,
+      0 18px 48px -12px rgba(232, 181, 137, 0.85); }
+}
+.btn-primary { animation: breathe-glow 3.4s ease-in-out infinite; }
+
+/* Sparkle dots for premium accents */
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.4); }
+  40%, 60% { opacity: 1; transform: scale(1); }
+}
+.animate-sparkle { animation: sparkle 2.4s ease-in-out infinite; }
+
 @keyframes shimmer {
   0% { background-position: 200% center; }
   100% { background-position: -200% center; }

@@ -1,6 +1,7 @@
 import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { TrustBar } from "@/components/sections/TrustBar";
+import { TagMarquee } from "@/components/sections/TagMarquee";
 import { Services } from "@/components/sections/Services";
 import { LiveStream } from "@/components/sections/LiveStream";
 import { About } from "@/components/sections/About";
@@ -22,6 +23,7 @@ export default function Home() {
       <main className="flex-1 pb-28">
         <Hero />
         <TrustBar />
+        <TagMarquee />
         <Services />
         <LiveStream />
         <About />
