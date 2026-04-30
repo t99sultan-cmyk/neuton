@@ -2,6 +2,7 @@
 
 import { useCountdown, formatPromoDate } from "@/lib/countdown";
 import { cn } from "@/lib/utils";
+import { FlipDigit } from "@/components/effects/FlipDigit";
 
 type Tone = "ink" | "light";
 type Variant = "default" | "compact" | "huge";
@@ -48,31 +49,34 @@ export function CountdownTimer({
         </div>
       )}
       <div className="flex items-stretch gap-2 sm:gap-2.5">
-        {values.map((v, i) => (
-          <div
-            key={LABELS[i]}
-            className={cn(
-              "flex flex-col items-center justify-center rounded-2xl border tabular",
-              s.cell,
-              isLight
-                ? "bg-bg/95 border-bg/10 text-ink"
-                : "bg-surface-2 border-border-2 text-ink",
-            )}
-          >
-            <span className={cn("font-bold leading-none tracking-tight", s.num)}>
-              {v === null ? "··" : String(v).padStart(2, "0")}
-            </span>
-            <span
+        {values.map((v, i) => {
+          const display = v === null ? "··" : String(v).padStart(2, "0");
+          return (
+            <div
+              key={LABELS[i]}
               className={cn(
-                "mt-1.5 uppercase tracking-[0.16em] font-semibold",
-                s.label,
-                isLight ? "text-muted-2" : "text-muted",
+                "flex flex-col items-center justify-center rounded-2xl border tabular",
+                s.cell,
+                isLight
+                  ? "bg-bg/95 border-bg/10 text-ink"
+                  : "bg-surface-2 border-border-2 text-ink",
               )}
             >
-              {LABELS[i]}
-            </span>
-          </div>
-        ))}
+              <span className={cn("font-bold leading-none tracking-tight", s.num)}>
+                <FlipDigit value={display} />
+              </span>
+              <span
+                className={cn(
+                  "mt-1.5 uppercase tracking-[0.16em] font-semibold",
+                  s.label,
+                  isLight ? "text-muted-2" : "text-muted",
+                )}
+              >
+                {LABELS[i]}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

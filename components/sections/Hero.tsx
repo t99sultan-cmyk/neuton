@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 import { ArrowRight, Star, ShieldCheck, Video } from "lucide-react";
 import { LinkButton } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -7,13 +10,16 @@ import { CountdownTimer } from "@/components/CountdownTimer";
 import { Magnetic } from "@/components/effects/Magnetic";
 import { CountUp } from "@/components/effects/CountUp";
 import { MouseParallaxBlobs } from "@/components/effects/MouseParallaxBlobs";
+import { ParticleField } from "@/components/effects/ParticleField";
+import { Tilt3D } from "@/components/effects/Tilt3D";
 import { buildWhatsAppLink, WA_MESSAGES } from "@/lib/whatsapp";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, cn } from "@/lib/utils";
 
 const LOGO_URL = "https://taplink.st/a/b/5/0/e/cc76ee.jpg";
 const YOUTUBE_ID = "aDavJmA5Ocs";
 
 export function Hero() {
+  const [logoFlipping, setLogoFlipping] = useState(false);
   return (
     <section
       id="top"
@@ -26,7 +32,8 @@ export function Hero() {
 
         <div className="mt-6 flex flex-col gap-4">
           {/* main hero card */}
-          <div className="relative card-elevated shadow-app-lg overflow-hidden p-6 sm:p-9">
+          <div className="relative card-elevated shadow-app-lg overflow-hidden p-6 sm:p-9 hero-sweep">
+            <ParticleField count={16} />
             <div
               className="absolute -top-40 -right-40 size-[420px] rounded-full opacity-30 blur-[80px]"
               style={{ background: "radial-gradient(closest-side, #E8B589, transparent)" }}
@@ -35,7 +42,19 @@ export function Hero() {
 
             {/* Лого + название */}
             <div className="relative flex items-center gap-3 flex-wrap">
-              <span className="relative shrink-0 size-11 rounded-2xl overflow-hidden ring-1 ring-border-strong shadow-app animate-float">
+              <button
+                type="button"
+                onClick={() => {
+                  if (logoFlipping) return;
+                  setLogoFlipping(true);
+                  window.setTimeout(() => setLogoFlipping(false), 750);
+                }}
+                aria-label="Логотип"
+                className={cn(
+                  "relative shrink-0 size-11 rounded-2xl overflow-hidden ring-1 ring-border-strong shadow-app animate-float",
+                  logoFlipping && "coin-flip",
+                )}
+              >
                 <Image
                   src={LOGO_URL}
                   alt="Логотип Ньютон"
@@ -44,7 +63,7 @@ export function Hero() {
                   className="object-cover"
                   unoptimized
                 />
-              </span>
+              </button>
               <div className="min-w-0">
                 <div className="font-bold text-[17px] leading-none">Ньютон</div>
                 <div className="mt-1 text-[11.5px] text-muted">
@@ -137,7 +156,8 @@ export function Hero() {
           </div>
 
           {/* Promo card */}
-          <div className="relative card-elevated shadow-app-lg p-6 sm:p-7 overflow-hidden">
+          <Tilt3D max={5}>
+          <div className="relative card-elevated shadow-app-lg p-6 sm:p-7 overflow-hidden h-full">
               <div
                 className="absolute -top-20 -right-20 size-60 rounded-full opacity-35 blur-3xl"
                 style={{ background: "radial-gradient(closest-side, #E8B589, transparent)" }}
@@ -194,6 +214,7 @@ export function Hero() {
                 <ArrowRight className="size-4" />
               </LinkButton>
           </div>
+          </Tilt3D>
         </div>
       </Container>
     </section>

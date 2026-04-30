@@ -1,29 +1,13 @@
 "use client";
 
-import {
-  Stethoscope,
-  Brain,
-  MessageCircle,
-  Hand,
-  Activity,
-  Sparkles,
-  ChevronRight,
-  Clock,
-} from "lucide-react";
+import { ChevronRight, Clock } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { SERVICES, type ServiceIconKey } from "@/lib/content";
+import { Tilt3D } from "@/components/effects/Tilt3D";
+import { ANIM_ICONS } from "@/components/icons/AnimatedServiceIcons";
+import { SERVICES } from "@/lib/content";
 import { buildWhatsAppLink, WA_MESSAGES } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
-
-const ICONS: Record<ServiceIconKey, React.ComponentType<{ className?: string }>> = {
-  stethoscope: Stethoscope,
-  brain: Brain,
-  messageCircle: MessageCircle,
-  hand: Hand,
-  activity: Activity,
-  sparkles: Sparkles,
-};
 
 export function Services() {
   return (
@@ -42,40 +26,40 @@ export function Services() {
 
         <div className="mt-8 app-list">
           {SERVICES.map((s) => {
-            const Icon = ICONS[s.iconKey];
+            const Icon = ANIM_ICONS[s.iconKey];
             const isHero = !!s.highlight;
             return (
-              <a
-                key={s.id}
-                href={buildWhatsAppLink(WA_MESSAGES[s.whatsappKey])}
-                target="_blank"
-                rel="noopener"
-                className={cn(
-                  "group relative flex flex-col p-5 sm:p-6 rounded-3xl overflow-hidden card-hover-lift",
-                  isHero
-                    ? "bg-gradient-to-br from-accent/25 via-surface-2 to-surface border border-accent/30 hover:border-accent/55"
-                    : "card-elevated hover:border-border-strong",
-                )}
-              >
-                {isHero && (
-                  <div
-                    className="absolute -top-32 -right-32 size-72 rounded-full opacity-50 blur-[80px]"
-                    style={{ background: "radial-gradient(closest-side, #E8B589, transparent)" }}
-                    aria-hidden
-                  />
-                )}
+              <Tilt3D key={s.id} max={6}>
+                <a
+                  href={buildWhatsAppLink(WA_MESSAGES[s.whatsappKey])}
+                  target="_blank"
+                  rel="noopener"
+                  className={cn(
+                    "group relative flex flex-col p-5 sm:p-6 rounded-3xl overflow-hidden card-hover-lift h-full",
+                    isHero
+                      ? "bg-gradient-to-br from-accent/25 via-surface-2 to-surface border border-accent/30 hover:border-accent/55"
+                      : "card-elevated hover:border-border-strong",
+                  )}
+                >
+                  {isHero && (
+                    <div
+                      className="absolute -top-32 -right-32 size-72 rounded-full opacity-50 blur-[80px]"
+                      style={{ background: "radial-gradient(closest-side, #E8B589, transparent)" }}
+                      aria-hidden
+                    />
+                  )}
 
-                <div className="relative flex items-start gap-4">
-                  <span
-                    className={cn(
-                      "shrink-0 grid place-items-center rounded-2xl border",
-                      isHero
-                        ? "size-12 bg-accent/20 border-accent/40 text-accent"
-                        : "size-11 bg-surface-2 border-border-2 text-ink",
-                    )}
-                  >
-                    <Icon className="size-5" />
-                  </span>
+                  <div className="relative flex items-start gap-4">
+                    <span
+                      className={cn(
+                        "shrink-0 grid place-items-center rounded-2xl border halo-pulse",
+                        isHero
+                          ? "size-12 bg-accent/20 border-accent/40 text-accent"
+                          : "size-11 bg-surface-2 border-border-2 text-ink",
+                      )}
+                    >
+                      <Icon className="size-5" />
+                    </span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <h3
@@ -134,7 +118,8 @@ export function Services() {
                     </span>
                   ))}
                 </div>
-              </a>
+                </a>
+              </Tilt3D>
             );
           })}
         </div>

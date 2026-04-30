@@ -4,6 +4,7 @@ import { ArrowRight, MessageCircle } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { Magnetic } from "@/components/effects/Magnetic";
 import { buildWhatsAppLink, WA_MESSAGES } from "@/lib/whatsapp";
 import { formatPrice } from "@/lib/utils";
 
@@ -44,16 +45,18 @@ export function PromoBanner() {
               </p>
 
               <div className="mt-7 flex flex-col sm:flex-row gap-2.5">
-                <LinkButton
-                  href={buildWhatsAppLink(WA_MESSAGES.promoDiagnostic)}
-                  target="_blank"
-                  rel="noopener"
-                  variant="primary"
-                  size="lg"
-                >
-                  Записаться по акции
-                  <ArrowRight className="size-4" />
-                </LinkButton>
+                <Magnetic>
+                  <LinkButton
+                    href={buildWhatsAppLink(WA_MESSAGES.promoDiagnostic)}
+                    target="_blank"
+                    rel="noopener"
+                    variant="primary"
+                    size="lg"
+                  >
+                    Записаться по акции
+                    <ArrowRight className="size-4" />
+                  </LinkButton>
+                </Magnetic>
                 <LinkButton
                   href={buildWhatsAppLink(WA_MESSAGES.generalInquiry)}
                   target="_blank"

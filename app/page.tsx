@@ -15,29 +15,40 @@ import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/sections/Footer";
 import { BottomDock } from "@/components/BottomDock";
+import { ScrollProgress } from "@/components/effects/ScrollProgress";
+import { RevealOnScroll } from "@/components/effects/RevealOnScroll";
 
 export default function Home() {
+  const reveals = [
+    <TrustBar key="trustbar" />,
+    <TagMarquee key="tagmarquee" />,
+    <Services key="services" />,
+    <LiveStream key="livestream" />,
+    <About key="about" />,
+    <Process key="process" />,
+    <WhyUs key="whyus" />,
+    <Specialists key="specialists" />,
+    <Testimonials key="testimonials" />,
+    <Pricing key="pricing" />,
+    <PromoBanner key="promo" />,
+    <FAQ key="faq" />,
+    <Contact key="contact" />,
+  ];
+
   return (
-    <div className="app-frame max-w-[680px]">
-      <Header />
-      <main className="flex-1 pb-28">
-        <Hero />
-        <TrustBar />
-        <TagMarquee />
-        <Services />
-        <LiveStream />
-        <About />
-        <Process />
-        <WhyUs />
-        <Specialists />
-        <Testimonials />
-        <Pricing />
-        <PromoBanner />
-        <FAQ />
-        <Contact />
-      </main>
-      <Footer />
-      <BottomDock />
-    </div>
+    <>
+      <ScrollProgress />
+      <div className="app-frame max-w-[680px]">
+        <Header />
+        <main className="flex-1 pb-28">
+          <Hero />
+          {reveals.map((node) => (
+            <RevealOnScroll key={node.key}>{node}</RevealOnScroll>
+          ))}
+        </main>
+        <Footer />
+        <BottomDock />
+      </div>
+    </>
   );
 }

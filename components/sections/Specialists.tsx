@@ -2,6 +2,7 @@
 
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Tilt3D } from "@/components/effects/Tilt3D";
 import { SPECIALISTS } from "@/lib/content";
 
 const GRADIENTS = [
@@ -39,9 +40,9 @@ export function Specialists() {
 
         <div className="mt-12 md:mt-16 grid sm:grid-cols-2 gap-3">
           {SPECIALISTS.map((s, i) => (
+            <Tilt3D key={s.name} max={6}>
             <div
-              key={s.name}
-              className="card-elevated overflow-hidden flex flex-col"
+              className="card-elevated overflow-hidden flex flex-col h-full"
             >
               <div
                 className="aspect-[4/5] grid place-items-center"
@@ -60,6 +61,7 @@ export function Specialists() {
                 <p className="mt-2 text-[13px] leading-[1.55] text-ink-soft">{s.bio}</p>
               </div>
             </div>
+            </Tilt3D>
           ))}
         </div>
         <p className="mt-6 text-[12px] text-muted-2 text-center">

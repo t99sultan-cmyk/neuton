@@ -5,6 +5,8 @@ import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { LinkButton } from "@/components/ui/Button";
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { Tilt3D } from "@/components/effects/Tilt3D";
+import { Magnetic } from "@/components/effects/Magnetic";
 import { buildWhatsAppLink, WA_MESSAGES } from "@/lib/whatsapp";
 import { formatPrice } from "@/lib/utils";
 
@@ -40,6 +42,7 @@ export function Pricing() {
         </div>
 
         <div className="mt-12 md:mt-16 grid gap-3">
+          <Tilt3D max={5}>
           <div className="relative rounded-[28px] p-7 sm:p-9 md:p-10 overflow-hidden bg-gradient-to-br from-accent/30 via-surface-2 to-surface border border-accent/30">
             <div
               className="absolute -top-40 -right-40 size-[420px] rounded-full opacity-40 blur-[110px]"
@@ -80,22 +83,25 @@ export function Pricing() {
 
               <CountdownTimer variant="default" tone="ink" />
 
-              <LinkButton
-                variant="primary"
-                size="xl"
-                href={buildWhatsAppLink(WA_MESSAGES.promoDiagnostic)}
-                target="_blank"
-                rel="noopener"
-                className="mt-7 w-full"
-              >
-                Записаться по акции
-                <ArrowRight className="size-4" />
-              </LinkButton>
+              <Magnetic className="mt-7 block w-full">
+                <LinkButton
+                  variant="primary"
+                  size="xl"
+                  href={buildWhatsAppLink(WA_MESSAGES.promoDiagnostic)}
+                  target="_blank"
+                  rel="noopener"
+                  className="w-full"
+                >
+                  Записаться по акции
+                  <ArrowRight className="size-4" />
+                </LinkButton>
+              </Magnetic>
               <p className="mt-3 text-[12px] text-muted text-center">
                 Без предоплаты · Перенос или отмена за 24 часа
               </p>
             </div>
           </div>
+          </Tilt3D>
 
           <div className="card-elevated p-7 sm:p-9 md:p-10">
             <div className="text-[11px] uppercase tracking-[0.18em] font-bold text-muted">

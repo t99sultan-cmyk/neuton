@@ -3,6 +3,7 @@
 import { Star, Quote } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Tilt3D } from "@/components/effects/Tilt3D";
 import { TESTIMONIALS } from "@/lib/content";
 
 export function Testimonials() {
@@ -29,10 +30,10 @@ export function Testimonials() {
         </div>
 
         <div className="mt-12 md:mt-16 grid md:grid-cols-2 gap-3">
-          {TESTIMONIALS.map((t, i) => (
+          {TESTIMONIALS.map((t) => (
+            <Tilt3D key={t.name} max={5}>
             <figure
-              key={t.name}
-              className="relative flex flex-col p-7 card-elevated"
+              className="relative flex flex-col p-7 card-elevated h-full"
             >
               <Quote
                 className="absolute top-6 right-6 size-7 text-surface-3"
@@ -56,6 +57,7 @@ export function Testimonials() {
                 </span>
               </div>
             </figure>
+            </Tilt3D>
           ))}
         </div>
       </Container>
