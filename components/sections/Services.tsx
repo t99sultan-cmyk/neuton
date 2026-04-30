@@ -52,9 +52,11 @@ export function Services() {
                   <div className="relative flex items-start gap-4">
                     <span
                       className={cn(
-                        "shrink-0 grid place-items-center rounded-2xl border halo-pulse",
+                        "shrink-0 grid place-items-center rounded-2xl border",
+                        // halo only on the promo card — running 6 simultaneous
+                        // pulses was overworking the compositor
                         isHero
-                          ? "size-12 bg-accent/20 border-accent/40 text-accent"
+                          ? "size-12 bg-accent/20 border-accent/40 text-accent halo-pulse"
                           : "size-11 bg-surface-2 border-border-2 text-ink",
                       )}
                     >

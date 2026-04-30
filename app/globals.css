@@ -459,7 +459,9 @@ body::before {
 /* Magnetic anchor — composited layer, smooth transform inheritance */
 .magnetic-anchor { transform: translate3d(0, 0, 0); }
 
-/* Scroll-driven timeline line for Process */
+/* Scroll-driven timeline line for Process — direct-DOM driven via refs.
+   transition-duration is short so continuous scroll feels live, but
+   long enough that the first paint settles smoothly into position. */
 .timeline-line {
   position: absolute;
   left: 27px;
@@ -468,6 +470,7 @@ body::before {
   width: 1px;
   background: var(--border-2);
   overflow: hidden;
+  border-radius: 1px;
 }
 .timeline-line::before {
   content: "";
@@ -476,7 +479,34 @@ body::before {
   top: 0;
   height: var(--progress, 0%);
   background: linear-gradient(180deg, var(--accent) 0%, var(--gold) 100%);
-  transition: height 0.18s linear;
+  transition: height 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: inherit;
+}
+
+/* Step number bubbles — class-driven via [data-active], single
+   transition (0.5s spring) on transform + colour set */
+.timeline-step .timeline-circle {
+  background: var(--surface-2);
+  border-color: var(--border-2);
+  color: var(--muted);
+  transform: scale(0.96) translate3d(0, 0, 0);
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease;
+  will-change: transform;
+}
+.timeline-step[data-active="true"] .timeline-circle {
+  background: linear-gradient(180deg, rgba(232,181,137,0.25), rgba(212,168,106,0.10));
+  border-color: rgba(232,181,137,0.55);
+  color: var(--accent);
+  transform: scale(1.04) translate3d(0, 0, 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .timeline-line::before { transition: none; }
+  .timeline-step .timeline-circle { transition: none; transform: none; }
+  .timeline-step[data-active="true"] .timeline-circle { transform: none; }
 }
 
 /* Animated service icon hover triggers */
