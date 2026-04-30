@@ -17,9 +17,9 @@ import { BottomDock } from "@/components/BottomDock";
 
 export default function Home() {
   return (
-    <>
+    <div className="app-frame max-w-[680px]">
       <Header />
-      <main className="flex-1 pb-24 md:pb-0">
+      <main className="flex-1 pb-28">
         <Hero />
         <TrustBar />
         <Services />
@@ -36,6 +36,6 @@ export default function Home() {
       </main>
       <Footer />
       <BottomDock />
-    </>
+    </div>
   );
 }

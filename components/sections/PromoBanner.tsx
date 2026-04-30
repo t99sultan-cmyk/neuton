@@ -9,7 +9,7 @@ import { formatPrice } from "@/lib/utils";
 
 export function PromoBanner() {
   return (
-    <section className="py-16 md:py-20">
+    <section className="py-12 md:py-16">
       <Container>
         <div className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] p-7 sm:p-10 md:p-14 lg:p-16 text-ink bg-gradient-to-br from-[#1A1410] via-surface-2 to-surface border border-accent/25">
           <div
@@ -23,7 +23,7 @@ export function PromoBanner() {
             aria-hidden
           />
 
-          <div className="relative grid lg:grid-cols-[1.2fr_0.8fr] gap-10 items-center">
+          <div className="relative grid gap-10 items-center">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full bg-accent/15 text-accent px-3 py-1 text-[11px] uppercase tracking-[0.18em] font-bold border border-accent/30">
                 <span className="size-1.5 rounded-full bg-accent animate-pulse-soft" />

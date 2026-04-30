@@ -23,16 +23,16 @@ const ICONS: Record<AdvantageIconKey, React.ComponentType<{ className?: string }
 
 export function WhyUs() {
   return (
-    <section className="py-14 md:py-24">
+    <section className="py-12 md:py-16">
       <Container>
         <div className="max-w-2xl">
           <Eyebrow>Почему нам доверяют</Eyebrow>
-          <h2 className="mt-5 font-bold tracking-tight text-balance text-[34px] md:text-[52px] leading-[1.02]">
+          <h2 className="mt-5 font-bold tracking-tight text-balance text-[30px] sm:text-[36px] leading-[1.02]">
             Шесть причин, почему родители выбирают «Ньютон»
           </h2>
         </div>
 
-        <div className="mt-12 md:mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="mt-12 md:mt-16 grid md:grid-cols-2 gap-3">
           {ADVANTAGES.map((adv, i) => {
             const Icon = ICONS[adv.iconKey];
             return (

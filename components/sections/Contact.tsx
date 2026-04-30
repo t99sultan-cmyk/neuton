@@ -10,11 +10,11 @@ import { SOCIAL_LINKS } from "@/lib/content";
 
 export function Contact() {
   return (
-    <section id="contact" className="py-14 md:py-24">
+    <section id="contact" className="py-12 md:py-16">
       <Container>
         <div className="max-w-2xl">
           <Eyebrow>Контакты</Eyebrow>
-          <h2 className="mt-5 font-bold tracking-tight text-balance text-[34px] md:text-[52px] leading-[1.02]">
+          <h2 className="mt-5 font-bold tracking-tight text-balance text-[30px] sm:text-[36px] leading-[1.02]">
             Свяжитесь удобным способом
           </h2>
           <p className="mt-5 text-[15.5px] leading-[1.55] text-ink-soft">
@@ -23,7 +23,7 @@ export function Contact() {
         </div>
 
         <div
-          className="mt-12 md:mt-16 grid lg:grid-cols-[1fr_1.1fr] gap-3"
+          className="mt-12 md:mt-16 grid gap-3"
         >
           <div className="card-elevated p-8 md:p-10 flex flex-col">
             <div className="space-y-5 flex-1">

@@ -68,6 +68,32 @@ body {
   overflow-x: hidden;
 }
 
+/* Ambient wallpaper — visible space around the app frame on desktop */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 10%, rgba(232, 181, 137, 0.16), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 30%, rgba(168, 217, 188, 0.10), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 110%, rgba(212, 168, 106, 0.10), transparent 70%),
+    var(--bg);
+}
+
+/* App frame — visible "phone" surround on desktop only */
+@media (min-width: 720px) {
+  .app-frame {
+    position: relative;
+    margin-inline: auto;
+    background: linear-gradient(180deg, rgba(20, 26, 24, 0.6) 0%, rgba(15, 21, 19, 0.85) 100%);
+    backdrop-filter: blur(2px);
+    border-left: 1px solid var(--border-2);
+    border-right: 1px solid var(--border-2);
+  }
+}
+
 ::selection {
   background: var(--accent);
   color: var(--bg);
@@ -77,15 +103,12 @@ body {
 .text-pretty { text-wrap: pretty; }
 
 .container-app {
-  max-width: 1280px;
+  max-width: 680px;
   margin-inline: auto;
   padding-inline: 16px;
 }
-@media (min-width: 768px) {
-  .container-app { padding-inline: 32px; }
-}
-@media (min-width: 1280px) {
-  .container-app { padding-inline: 48px; }
+@media (min-width: 720px) {
+  .container-app { padding-inline: 24px; }
 }
 
 /* Card surfaces */
@@ -226,14 +249,11 @@ body {
   padding-bottom: max(20px, env(safe-area-inset-bottom));
 }
 
-/* Bento helpers */
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
+/* App-style stacked card list */
+.app-list {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
-}
-@media (min-width: 720px) {
-  .bento-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
 }
 
 /* Subtle dotted noise on surfaces */

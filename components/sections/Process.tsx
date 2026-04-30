@@ -6,34 +6,34 @@ import { PROCESS_STEPS } from "@/lib/content";
 
 export function Process() {
   return (
-    <section id="process" className="py-14 md:py-24">
+    <section id="process" className="py-12 md:py-16">
       <Container>
-        <div className="max-w-2xl">
+        <div>
           <Eyebrow>Как мы работаем</Eyebrow>
-          <h2 className="mt-5 font-bold tracking-tight text-balance text-[34px] md:text-[52px] leading-[1.02]">
-            От первого сообщения <br className="hidden md:block" />
-            до видимого прогресса
+          <h2 className="mt-5 font-bold tracking-tight text-balance text-[30px] sm:text-[36px] leading-[1.05]">
+            От первого сообщения до видимого прогресса
           </h2>
         </div>
 
-        <div className="mt-12 md:mt-16 grid lg:grid-cols-5 gap-3">
-          {PROCESS_STEPS.map((step, i) => (
-            <div
-              key={step.number}
-              className="card-elevated p-6 md:p-7 flex flex-col gap-4 relative overflow-hidden"
-            >
-              <span className="font-bold text-[36px] tracking-tight text-accent leading-none">
+        <ol className="mt-8 relative">
+          <div
+            aria-hidden
+            className="absolute left-[27px] top-3 bottom-3 w-px bg-gradient-to-b from-accent/50 via-border-strong to-border"
+          />
+          {PROCESS_STEPS.map((step) => (
+            <li key={step.number} className="relative pl-16 pb-7 last:pb-0">
+              <div className="absolute left-0 top-0 grid place-items-center size-14 rounded-2xl bg-surface-2 border border-border-2 font-bold text-[16px] tracking-tight text-accent shadow-app tabular">
                 {step.number}
-              </span>
-              <h3 className="font-bold text-[18px] tracking-tight leading-tight">
+              </div>
+              <h3 className="font-bold text-[18px] tracking-tight leading-tight pt-2">
                 {step.title}
               </h3>
-              <p className="text-[13.5px] leading-[1.6] text-ink-soft">
+              <p className="mt-2 text-[13.5px] leading-[1.6] text-ink-soft">
                 {step.description}
               </p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </Container>
     </section>
   );

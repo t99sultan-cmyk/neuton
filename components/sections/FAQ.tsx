@@ -14,12 +14,12 @@ export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-14 md:py-24">
+    <section id="faq" className="py-12 md:py-16">
       <Container>
-        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16">
+        <div className="grid gap-10">
           <div className="lg:sticky lg:top-28 self-start">
             <Eyebrow>Частые вопросы</Eyebrow>
-            <h2 className="mt-5 font-bold tracking-tight text-balance text-[34px] md:text-[52px] leading-[1.02]">
+            <h2 className="mt-5 font-bold tracking-tight text-balance text-[30px] sm:text-[36px] leading-[1.02]">
               Ответы на всё, <br className="hidden md:block" />
               что обычно спрашивают родители
             </h2>

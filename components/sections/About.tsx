@@ -24,13 +24,13 @@ const PILLARS = [
 
 export function About() {
   return (
-    <section id="about" className="py-14 md:py-24">
+    <section id="about" className="py-12 md:py-16">
       <Container>
-        <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-16 items-start">
+        <div className="grid gap-10 items-start">
           <div
           >
             <Eyebrow>О центре</Eyebrow>
-            <h2 className="mt-5 font-bold tracking-tight text-balance text-[34px] md:text-[52px] leading-[1.02]">
+            <h2 className="mt-5 font-bold tracking-tight text-balance text-[30px] sm:text-[36px] leading-[1.02]">
               Помогаем детям расти —{" "}
               <span className="text-accent">а родителям дышать ровнее</span>
             </h2>

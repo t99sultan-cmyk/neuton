@@ -15,7 +15,7 @@ const YOUTUBE_ID = "aDavJmA5Ocs";
 
 export function LiveStream() {
   return (
-    <section className="py-14 md:py-24">
+    <section className="py-12 md:py-16">
       <Container>
         <div className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] card-elevated shadow-app-lg p-6 sm:p-10 md:p-12 lg:p-14">
           <div
@@ -29,10 +29,10 @@ export function LiveStream() {
             aria-hidden
           />
 
-          <div className="relative grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="relative grid gap-10 items-center">
             <div>
               <Eyebrow>Главное отличие</Eyebrow>
-              <h2 className="mt-5 font-bold tracking-tight text-balance text-[34px] md:text-[52px] leading-[1.02]">
+              <h2 className="mt-5 font-bold tracking-tight text-balance text-[30px] sm:text-[36px] leading-[1.02]">
                 Вы видите, как идёт занятие.{" "}
                 <span className="shimmer-text">Из дома, с работы, из машины.</span>
               </h2>

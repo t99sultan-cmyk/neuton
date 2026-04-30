@@ -31,9 +31,9 @@ export function Hero() {
       <Container className="relative">
         <Eyebrow>Алматы · Открыто сегодня · 09:00 — 19:00</Eyebrow>
 
-        <div className="mt-8 grid lg:grid-cols-[1.05fr_0.95fr] gap-6 lg:gap-10">
-          {/* LEFT — main hero card */}
-          <div className="relative card-elevated shadow-app-lg overflow-hidden p-6 sm:p-10 lg:p-12">
+        <div className="mt-6 flex flex-col gap-4">
+          {/* main hero card */}
+          <div className="relative card-elevated shadow-app-lg overflow-hidden p-6 sm:p-9">
             <div
               className="absolute -top-40 -right-40 size-[420px] rounded-full opacity-30 blur-[80px]"
               style={{ background: "radial-gradient(closest-side, #E8B589, transparent)" }}
@@ -64,7 +64,7 @@ export function Hero() {
               </span>
             </div>
 
-            <h1 className="relative mt-7 font-bold tracking-tight text-balance text-[34px] sm:text-[52px] lg:text-[68px] leading-[1.02]">
+            <h1 className="relative mt-7 font-bold tracking-tight text-balance text-[34px] sm:text-[44px] leading-[1.02]">
               Помогаем детям{" "}
               <span className="shimmer-text">расти спокойно</span>
               <br className="hidden sm:block" />
@@ -116,11 +116,9 @@ export function Hero() {
             </div>
           </div>
 
-          {/* RIGHT — vertical promo with video + timer */}
-          <div className="grid gap-4">
-            {/* Video reel */}
-            <div className="relative overflow-hidden rounded-[28px] card-elevated shadow-app-lg">
-              <div className="relative aspect-[10/13] sm:aspect-[9/12]">
+          {/* Video reel */}
+          <div className="relative overflow-hidden rounded-[28px] card-elevated shadow-app-lg">
+              <div className="relative aspect-[16/10]">
                 <iframe
                   src={`https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1&mute=1&loop=1&playlist=${YOUTUBE_ID}&controls=0&playsinline=1&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0`}
                   title="Видео центра Ньютон"
@@ -141,10 +139,10 @@ export function Hero() {
                   </span>
                 </div>
               </div>
-            </div>
+          </div>
 
-            {/* Promo card */}
-            <div className="relative card-elevated shadow-app-lg p-6 sm:p-7 overflow-hidden">
+          {/* Promo card */}
+          <div className="relative card-elevated shadow-app-lg p-6 sm:p-7 overflow-hidden">
               <div
                 className="absolute -top-20 -right-20 size-60 rounded-full opacity-35 blur-3xl"
                 style={{ background: "radial-gradient(closest-side, #E8B589, transparent)" }}
@@ -200,7 +198,6 @@ export function Hero() {
                 Записаться по акции
                 <ArrowRight className="size-4" />
               </LinkButton>
-            </div>
           </div>
         </div>
       </Container>

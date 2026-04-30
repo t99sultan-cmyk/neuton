@@ -24,11 +24,11 @@ function Initials({ name }: { name: string }) {
 
 export function Specialists() {
   return (
-    <section className="py-14 md:py-24">
+    <section className="py-12 md:py-16">
       <Container>
         <div className="max-w-2xl">
           <Eyebrow>Команда</Eyebrow>
-          <h2 className="mt-5 font-bold tracking-tight text-balance text-[34px] md:text-[52px] leading-[1.02]">
+          <h2 className="mt-5 font-bold tracking-tight text-balance text-[30px] sm:text-[36px] leading-[1.02]">
             Наши специалисты — <span className="text-accent">лица, а не профили</span>
           </h2>
           <p className="mt-5 text-[15.5px] leading-[1.55] text-ink-soft text-pretty">
@@ -37,7 +37,7 @@ export function Specialists() {
           </p>
         </div>
 
-        <div className="mt-12 md:mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="mt-12 md:mt-16 grid sm:grid-cols-2 gap-3">
           {SPECIALISTS.map((s, i) => (
             <div
               key={s.name}
