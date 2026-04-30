@@ -54,7 +54,8 @@ export function BottomDock() {
   return (
     <div
       className={cn(
-        "fixed inset-x-0 bottom-0 z-40 flex justify-center pointer-events-none dock-safe transition-all duration-300",
+        "fixed inset-x-0 bottom-0 z-40 flex justify-center pointer-events-none dock-safe",
+        "transition-[opacity,transform] duration-300 ease-out will-change-[opacity,transform]",
         scrolled ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full",
       )}
       aria-hidden={!scrolled}

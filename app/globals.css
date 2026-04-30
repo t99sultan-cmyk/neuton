@@ -156,7 +156,7 @@ body::before {
     0 16px 32px -16px rgba(0, 0, 0, 0.5);
 }
 
-/* Buttons */
+/* Buttons — transform-only transitions (GPU-cheap, no layout thrash) */
 .btn-base {
   display: inline-flex;
   align-items: center;
@@ -166,15 +166,15 @@ body::before {
   letter-spacing: -0.01em;
   white-space: nowrap;
   border-radius: 999px;
+  transform: translate3d(0, 0, 0);
   transition:
-    transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 0.18s ease,
+    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
     background 0.18s ease,
     border-color 0.18s ease,
     filter 0.18s ease;
 }
-.btn-base:hover { transform: translateY(-1px); }
-.btn-base:active { transform: translateY(0); }
+.btn-base:hover { transform: translate3d(0, -1px, 0); }
+.btn-base:active { transform: translate3d(0, 0, 0) scale(0.97); }
 .btn-base:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -186,9 +186,9 @@ body::before {
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.35) inset,
     0 -1px 0 rgba(0, 0, 0, 0.15) inset,
-    0 12px 32px -10px rgba(232, 181, 137, 0.55);
+    0 14px 36px -10px rgba(232, 181, 137, 0.55);
 }
-.btn-primary:hover { filter: brightness(1.05); }
+.btn-primary:hover { filter: brightness(1.06); }
 
 .btn-light {
   background: var(--ink);
@@ -250,7 +250,6 @@ body::before {
   position: relative;
   overflow: hidden;
 }
-.btn-base:active { transform: translateY(0) scale(0.97); }
 
 /* Marquee */
 @keyframes marquee-left {
@@ -265,32 +264,42 @@ body::before {
 .animate-marquee-right { animation: marquee-right linear infinite; }
 .marquee-hover-pause:hover [class*="animate-marquee"] { animation-play-state: paused; }
 
-/* Card lift on hover (premium touch) */
+/* Card lift on hover — transform-only, no box-shadow transition (GPU-cheap) */
 .card-hover-lift {
+  transform: translate3d(0, 0, 0);
   transition:
-    transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
-    border-color 0.18s ease,
-    box-shadow 0.28s ease;
+    transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.2s ease;
 }
 .card-hover-lift:hover {
-  transform: translateY(-3px);
+  transform: translate3d(0, -3px, 0);
   border-color: var(--border-strong);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.05) inset,
-    0 32px 64px -28px rgba(232, 181, 137, 0.30),
-    0 16px 32px -12px rgba(0, 0, 0, 0.55);
 }
 
-/* Breathing glow for primary CTAs (subtle) */
-@keyframes breathe-glow {
-  0%, 100% { box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.35) inset,
-      0 12px 32px -10px rgba(232, 181, 137, 0.55); }
-  50% { box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.42) inset,
-      0 18px 48px -12px rgba(232, 181, 137, 0.85); }
+/* Breathing glow on primary CTA — pseudo-element with opacity+scale only.
+   Animating box-shadow forces rasterisation; opacity on a transformed
+   layer stays on the GPU compositor. */
+.btn-primary { isolation: isolate; }
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  background: radial-gradient(closest-side, rgba(232, 181, 137, 0.55), transparent 70%);
+  filter: blur(10px);
+  opacity: 0.45;
+  z-index: -1;
+  pointer-events: none;
+  animation: btn-breathe 3.6s ease-in-out infinite;
+  will-change: opacity, transform;
 }
-.btn-primary { animation: breathe-glow 3.4s ease-in-out infinite; }
+@keyframes btn-breathe {
+  0%, 100% { opacity: 0.42; transform: scale(1); }
+  50%      { opacity: 0.85; transform: scale(1.05); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary::before { animation: none; opacity: 0.55; }
+}
 
 /* Sparkle dots for premium accents */
 @keyframes sparkle {
@@ -301,88 +310,127 @@ body::before {
 
 /* === Iteration 2 — premium animations === */
 
-/* 3D tilt scaffolding */
+/* 3D tilt scaffolding — fast follow on hover, smooth ease on leave */
 .tilt-3d {
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-  will-change: transform;
+  perspective: 1100px;
+  perspective-origin: center;
 }
 .tilt-3d-inner {
-  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translate3d(0, 0, 0);
   transform-style: preserve-3d;
-  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Default state — used during mouse move (snappy follow) */
+  transition: transform 0.08s ease-out;
+  will-change: transform;
+}
+/* When mouse leaves — slower, easier transition back to rest */
+.tilt-3d:not(:hover) .tilt-3d-inner {
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: auto;
 }
 @media (pointer: coarse), (prefers-reduced-motion: reduce) {
-  .tilt-3d-inner { transform: none !important; }
+  .tilt-3d-inner { transform: none !important; transition: none !important; }
 }
 
-/* Reveal on scroll — transform only, no opacity flash */
+/* Reveal on scroll — translate3d only (drops scale flicker, GPU layer) */
 .reveal-on-scroll {
-  transform: scale(0.985) translateY(8px);
-  transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: translate3d(0, 16px, 0);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 .reveal-on-scroll[data-revealed="true"] {
-  transform: scale(1) translateY(0);
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
 }
 @media (prefers-reduced-motion: reduce) {
-  .reveal-on-scroll { transform: none; transition: none; }
-}
-
-/* Halo pulse for icons */
-@keyframes halo-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(232, 181, 137, 0.45); }
-  50% { box-shadow: 0 0 0 12px rgba(232, 181, 137, 0); }
-}
-.halo-pulse { animation: halo-pulse 2.8s ease-in-out infinite; }
-.halo-pulse-mint { animation: halo-pulse-mint 3.2s ease-in-out infinite; }
-@keyframes halo-pulse-mint {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(168, 217, 188, 0.40); }
-  50% { box-shadow: 0 0 0 14px rgba(168, 217, 188, 0); }
-}
-
-/* Hero gradient sweep — slow shimmer pass */
-@keyframes hero-sweep {
-  0%, 100% {
-    background-position: -120% 0%;
-    opacity: 0;
-  }
-  20% { opacity: 0.7; }
-  60% { opacity: 0.7; }
-  80%, 100% {
-    background-position: 220% 0%;
-    opacity: 0;
+  .reveal-on-scroll {
+    transform: none;
+    transition: none;
   }
 }
+
+/* Halo pulse — pseudo-element ring (transform+opacity, GPU-cheap).
+   Animating box-shadow with spread/blur is the #1 cause of paint jank.
+   Switched to ::after with scale + opacity on a composited layer. */
+.halo-pulse,
+.halo-pulse-mint {
+  position: relative;
+  isolation: isolate;
+}
+.halo-pulse::after,
+.halo-pulse-mint::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  border: 2px solid currentColor;
+  opacity: 0;
+  transform: scale(1);
+  animation: halo-ring 2.8s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+.halo-pulse::after { color: rgba(232, 181, 137, 0.55); }
+.halo-pulse-mint::after {
+  color: rgba(168, 217, 188, 0.50);
+  animation-duration: 3.2s;
+}
+@keyframes halo-ring {
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50%      { opacity: 0.85; transform: scale(1.18); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .halo-pulse::after,
+  .halo-pulse-mint::after { animation: none; opacity: 0; }
+}
+
+/* Hero gradient sweep — translate3d on a fixed-size highlight strip
+   instead of background-position (cheaper repaints, smoother frame timing). */
+.hero-sweep { position: relative; }
 .hero-sweep::after {
   content: "";
   position: absolute;
-  inset: 0;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  width: 60%;
   pointer-events: none;
   background: linear-gradient(
     105deg,
-    transparent 30%,
-    rgba(232, 181, 137, 0.18) 45%,
+    transparent 0%,
+    rgba(232, 181, 137, 0.18) 35%,
     rgba(244, 235, 220, 0.10) 50%,
-    rgba(168, 217, 188, 0.10) 55%,
-    transparent 70%
+    rgba(168, 217, 188, 0.10) 65%,
+    transparent 100%
   );
-  background-size: 220% 100%;
-  background-repeat: no-repeat;
-  animation: hero-sweep 9s ease-in-out infinite;
   border-radius: inherit;
   mix-blend-mode: screen;
+  transform: translate3d(0, 0, 0);
+  animation: hero-sweep 9s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+@keyframes hero-sweep {
+  0%, 8%   { transform: translate3d(0, 0, 0);    opacity: 0; }
+  16%      { opacity: 0.7; }
+  60%      { opacity: 0.7; }
+  72%, 100% { transform: translate3d(280%, 0, 0); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-sweep::after { animation: none; opacity: 0; }
 }
 
-/* Slot-machine style digit transition (FlipDigit) */
+/* Slot-machine style digit transition (FlipDigit) — GPU-friendly translate3d */
 @keyframes digit-in {
-  0%   { transform: translateY(85%); opacity: 0; }
+  0%   { transform: translate3d(0, 85%, 0); opacity: 0; }
   60%  { opacity: 1; }
-  100% { transform: translateY(0); opacity: 1; }
+  100% { transform: translate3d(0, 0, 0); opacity: 1; }
 }
 .animate-digit-in {
-  animation: digit-in 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: digit-in 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-digit-in { animation: none; }
 }
 
 /* Confetti canvas overlay */
@@ -393,20 +441,23 @@ body::before {
   z-index: 100;
 }
 
-/* Scroll progress bar (top gold line) */
+/* Scroll progress bar (top gold line) — GPU layer, no transition lag */
 .scroll-progress {
   position: fixed;
   top: 0;
   left: 0;
   height: 2px;
   width: 100%;
-  transform-origin: 0 0;
+  transform-origin: 0 50%;
   background: linear-gradient(90deg, var(--accent), var(--gold));
   z-index: 60;
   pointer-events: none;
-  transform: scaleX(var(--scroll, 0));
-  transition: transform 0.08s linear;
+  transform: scale3d(var(--scroll, 0), 1, 1);
+  will-change: transform;
 }
+
+/* Magnetic anchor — composited layer, smooth transform inheritance */
+.magnetic-anchor { transform: translate3d(0, 0, 0); }
 
 /* Scroll-driven timeline line for Process */
 .timeline-line {

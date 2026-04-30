@@ -63,7 +63,7 @@ export function Header() {
     <header className="sticky top-0 z-50">
       <div
         className={cn(
-          "transition-all duration-300",
+          "transition-[background,backdrop-filter,border-color] duration-300 ease-out",
           scrolled ? "glass" : "bg-transparent",
         )}
       >

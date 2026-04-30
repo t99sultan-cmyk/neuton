@@ -8,16 +8,21 @@ type Props = {
   className?: string;
   /** Maximum tilt angle in degrees (default 7) */
   max?: number;
-  /** Lift the card slightly on hover */
-  lift?: boolean;
 };
 
 /**
  * 3D perspective tilt that follows the cursor.
- * Inner content gets transformed; outer wrapper preserves layout.
- * Auto-disabled on touch devices and reduced-motion via CSS.
+ * Inner uses CSS variables `--rx` / `--ry` for the rotation values,
+ * so updates avoid React re-renders.
+ *
+ * Smoothness:
+ *  - During hover: 0.08s linear transition (snappy follow)
+ *  - On mouseleave: 0.55s spring-ease (graceful return) — handled in CSS
+ *    via `.tilt-3d:not(:hover) .tilt-3d-inner`
+ *  - `will-change: transform` is permanent on the inner only
+ *  - Auto-disabled on touch + reduced-motion via media queries
  */
-export function Tilt3D({ children, className, max = 7, lift = true }: Props) {
+export function Tilt3D({ children, className, max = 7 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -30,7 +35,6 @@ export function Tilt3D({ children, className, max = 7, lift = true }: Props) {
     const ry = ((x - 0.5) * 2 * max).toFixed(2);
     el.style.setProperty("--rx", `${rx}deg`);
     el.style.setProperty("--ry", `${ry}deg`);
-    if (lift) el.style.setProperty("--lift", "translateZ(8px)");
   };
 
   const onLeave = () => {
@@ -38,7 +42,6 @@ export function Tilt3D({ children, className, max = 7, lift = true }: Props) {
     if (!el) return;
     el.style.setProperty("--rx", "0deg");
     el.style.setProperty("--ry", "0deg");
-    el.style.setProperty("--lift", "translateZ(0)");
   };
 
   return (
